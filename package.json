@@ -1,0 +1,52 @@
+{
+  "name": "assure",
+  "description": "Promises/A+ micro library",
+  "version": "0.0.1",
+  "homepage": "https://github.com/avoidwork/assure",
+  "author": {
+    "name": "Jason Mulligan",
+    "email": "jason.mulligan@avoidwork.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/avoidwork/assure.git"
+  },
+  "bugs": {
+    "url": "https://github.com/avoidwork/assure/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD-3",
+      "url": "https://raw.github.com/avoidwork/assure/master/LICENSE"
+    }
+  ],
+  "main": "lib/assure",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.6",
+    "grunt-exec": "~0.4",
+    "grunt-sed": "~0.1",
+    "grunt-contrib-concat": "~0.1.3",
+    "grunt-contrib-jshint": "~0.1",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-watch": "~0.2"
+  },
+  "keywords": [
+    "framework",
+    "rest",
+    "api",
+    "consumer",
+    "hateoas",
+    "server",
+    "proxy",
+    "cache",
+    "nosql"
+  ]
+}

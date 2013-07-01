@@ -1,0 +1,11 @@
+/docs/
+/node_modules/
+/lib/assure.min.js
+/lib/assure.map
+/test/
+/src/
+.git
+.gitignore
+.jshintrc
+.travis.yml
+Gruntfile.js
