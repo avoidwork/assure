@@ -13,9 +13,9 @@ Promises/A+ micro library to help with asynchronous work flow.
 
 Promises (deferreds/futures/etc.) are a way to create a tangible connection between `now` and an eventual outcome. Promises are a good pattern for asynchronous I/O, such as API interaction, AJAX operations, etc., by providing optional `success` & `failure` handling.
 
-Promise reconciliation is asynchronous, allowing you to chain multiple Promises together in a hierarchy, for resolution. This allows you to effectively branch during reconciliation, like a T, which puts the next "step" in the chain into a pending state, which inherits the outcome from the fork when it is reconciled. Promise chains can be resolved from either end.
+Promise reconciliation is asynchronous, allowing you to chain multiple Promises together in a hierarchy, for resolution. If a `Promise` returns a new `Promise` from a handler, you've effectively branched during reconciliation, like a T, which puts the "parent" of the new `Promise` into a pending state, which can only be reconciled from the branch.
 
-A `then()` will return a ***new*** Promise which is chained in a parent/child relationship. When a "parent" is reconciled, it's "children" inherit the outcome.
+A `then()` will return a ***new*** Promise which is in a hierarchal relationship. When a "parent" is reconciled, it's "children" inherit the outcome. Promise chains can be resolved from either end.
 
 ## API
 
