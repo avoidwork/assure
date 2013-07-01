@@ -4,7 +4,7 @@ if ( typeof exports !== "undefined" ) {
 	module.exports = promise.factory;
 }
 else if ( typeof define === "function" ) {
-	define( "assure", function () {
+	define( function () {
 		return promise.factory;
 	});
 }
