@@ -167,7 +167,7 @@ function Deferred () {
 
 	// Setting handlers to execute Arrays of Functions
 	this.promise.then( function ( arg ) {
-		setTimeout( function () {
+		delay( function () {
 			self.onDone.forEach( function ( i ) {
 				i( arg );
 			});
@@ -179,9 +179,9 @@ function Deferred () {
 			self.onAlways = [];
 			self.onDone   = [];
 			self.onFail   = [];
-		}, 0);
+		});
 	}, function ( arg ) {
-		setTimeout( function () {
+		delay( function () {
 			self.onFail.forEach( function ( i ) {
 				i( arg );
 			});
@@ -193,7 +193,7 @@ function Deferred () {
 			self.onAlways = [];
 			self.onDone   = [];
 			self.onFail   = [];
-		}, 0);
+		});
 	});
 }
 

@@ -31,9 +31,9 @@ var promise = {
 		reject : function ( arg ) {
 			var self = this;
 
-			setTimeout( function () {
+			delay( function () {
 				promise.resolve.call( self, promise.state.broken, arg );
-			}, 0);
+			});
 
 			return this;
 		},
@@ -48,9 +48,9 @@ var promise = {
 		resolve : function ( arg ) {
 			var self = this;
 
-			setTimeout( function () {
+			delay( function () {
 				promise.resolve.call( self, promise.state.resolved, arg );
-			}, 0);
+			});
 
 			return this;
 		},
