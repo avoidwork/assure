@@ -41,13 +41,6 @@ module.exports = function (grunt) {
 		nodeunit : {
 			all : ["test/*.js"]
 		},
-		sed : {
-			"version" : {
-				pattern : "{{VERSION}}",
-				replacement : "<%= pkg.version %>",
-				path : ["<%= concat.dist.dest %>"]
-			}
-		},
 		watch : {
 			js : {
 				files : "<%= concat.dist.src %>",
@@ -70,6 +63,6 @@ module.exports = function (grunt) {
 
 	// aliases
 	grunt.registerTask("test", ["nodeunit", "jshint"]);
-	grunt.registerTask("build", ["concat", "sed", "exec"]);
+	grunt.registerTask("build", ["concat", "exec"]);
 	grunt.registerTask("default", ["build", "test"]);
 };
