@@ -1,14 +1,14 @@
 
 // Node, AMD & window supported
 if ( typeof exports !== "undefined" ) {
-	module.exports = promise.factory;
+	module.exports = deferred.factory;
 }
 else if ( typeof define === "function" ) {
 	define( function () {
-		return promise.factory;
+		return deferred.factory;
 	});
 }
 else {
-	global.assure = promise.factory;
+	global.assure = deferred.factory;
 }
 })( this );

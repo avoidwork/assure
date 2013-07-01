@@ -106,7 +106,7 @@ var promise = {
 					if ( !( result instanceof Promise ) ) {
 						// This is clearly a mistake on the dev's part
 						if ( error && result === undefined ) {
-							throw new Error( "Invalid arguments" );
+							throw new Error( label.invalidArguments );
 						}
 						else {
 							deferred[!error ? "resolve" : "reject"]( result || self.outcome );
@@ -174,7 +174,7 @@ var promise = {
 				return;
 			}
 			else {
-				throw new Error( "The promise has been resolved: {{outcome}}".replace( "{{outcome}}", this.outcome ) );
+				throw new Error( label.promiseResolved.replace( "{{outcome}}", this.outcome ) );
 			}
 		}
 
@@ -250,7 +250,7 @@ var promise = {
 	 */
 	vouch : function ( state, fn ) {
 		if ( state === "" ) {
-			throw new Error( "Invalid arguments" );
+			throw new Error( label.invalidArguments );
 		}
 
 		if ( this.state === promise.state.pending ) {
@@ -263,3 +263,22 @@ var promise = {
 		return this;
 	}
 };
+
+/**
+ * Promise factory
+ *
+ * @class Promise
+ * @return {Object} Instance of Promise
+ */
+function Promise () {
+	this.childNodes = [];
+	this.error      = [];
+	this.fulfill    = [];
+	this.parentNode = null;
+	this.outcome    = null;
+	this.state      = promise.state.pending;
+}
+
+// Setting prototype & constructor loop
+Promise.prototype = promise.methods;
+Promise.prototype.constructor = Promise;

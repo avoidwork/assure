@@ -17,8 +17,9 @@ module.exports = function (grunt) {
 			dist : {
 				src : [
 					"src/intro.js",
+					"src/deferred.js",
+					"src/label.js",
 					"src/promise.js",
-					"src/factory.js",
 					"src/outro.js"
 				],
 				dest : "lib/<%= pkg.name %>.js"

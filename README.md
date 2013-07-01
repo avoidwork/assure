@@ -1,7 +1,22 @@
 [![build status](https://secure.travis-ci.org/avoidwork/assure.png)](http://travis-ci.org/avoidwork/assure)
 # assure
 
-Promises/A+ micro library to help with asynchronous work flow.
+Promises/A+ micro library to help with asynchronous work flow. The deferred methods match jQuery's when possible for convenience and familiarity, but under the hood it is a Promises/A+ spec!
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.done(function (arg) {
+	console.log("Outcome: " + arg);
+});
+
+deferred.always(function (arg) {
+	...
+});
+```
+
 
 ## What is Supported?
 
@@ -19,6 +34,90 @@ A `then()` will return a ***new*** Promise which is in a hierarchal relationship
 
 ## API
 
+### always
+#### Method
+
+Registers a function to execute after Promise is reconciled
+
+	@param  {Function} arg Function to execute
+	@return {Object}       Deferred
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.always(function() {
+	console.log("This is always going to run");
+});
+```
+
+### done
+#### Method
+
+Registers a function to execute after Promise is resolved
+
+	@param  {Function} arg Function to execute
+	@return {Object}       Deferred
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.done(function() {
+	console.log("This is going to run if Promise is resolved");
+});
+```
+
+### fail
+#### Method
+
+Registers a function to execute after Promise is rejected
+
+	@param  {Function} arg Function to execute
+	@return {Object}       Deferred
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.fail(function() {
+	console.log("This is going to run if Promise is rejected");
+});
+```
+
+### isRejected
+#### Method
+
+Determines if Deferred is rejected
+
+	@return {Boolean} `true` if rejected
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.isRejected(); // false, it's brand new!
+```
+
+### isResolved
+#### Method
+
+Determines if Deferred is resolved
+
+	@return {Boolean} `true` if resolved
+
+**Example**
+
+```javascript
+var deferred = assure();
+
+deferred.isResolved(); // false, it's brand new!
+```
+
 ### reject
 #### Method
 Breaks a Promise
@@ -29,13 +128,13 @@ Breaks a Promise
 ***Example***
 
 ```javascript
-var p = assure();
+var deferred = assure();
 
-p.then(null, function (e) {
+deferred.then(null, function (e) {
 	console.error(e);
 });
 
-p.reject("rejected");
+deferred.reject("rejected");
 ```
 
 ### resolve
@@ -48,31 +147,28 @@ Promise is resolved
 ***Example***
 
 ```javascript
-var p = assure();
+var deferred = assure();
 
-p.then(function (arg) {
+deferred.then(function (arg) {
 	console.log(arg);
 });
 
-p.resolve("resolved");
+deferred.resolve("resolved");
 ```
 
-### resolved
+### state
 #### Method
-Returns a boolean indicating state of the Promise
 
-	@return {Boolean} `true` if resolved
+Gets the state of the Promise
 
-***Example***
+	@return {String} Describes the state
+
+**Example**
 
 ```javascript
-var p = assure();
+var deferred = assure();
 
-p.then(function (arg) {
-	console.log(p.resolved());
-});
-
-p.resolve("resolved");
+deferred.state(); // `pending`
 ```
 
 ### then
@@ -86,15 +182,15 @@ Registers handler(s) for a Promise
 ***Example***
 
 ```javascript
-var p = assure();
+var deferred = assure();
 
-p.then(function (arg) {
+deferred.then(function (arg) {
 	console.log("Promise succeeded!");
 }, function (e) {
 	console.error("Promise failed!");
 });
 
-p.resolve("resolved");
+deferred.resolve("resolved");
 ```
 
 ## License

@@ -1,10 +1,12 @@
+// Array lengths are +1 because the Promise is encapsulated in a Deferred
+
 var assure = require("../lib/assure.js");
 
 exports["verify"] = {
 	setUp: function (done) {
 		this.outcome = "verified";
 		this.handler = function (arg) { return arg; };
-		this.promise = assure();
+		this.promise = assure().promise;
 		done();
 	},
 	test: function (test) {
@@ -12,8 +14,8 @@ exports["verify"] = {
 		test.notEqual(this.promise.then(this.handler), this.promise, "Should be a new instance");
 		test.equal(this.promise.state, "pending", "Should be \"pending\"");
 		test.equal(this.promise.resolved(), false, "Should be false");
-		test.equal(this.promise.fulfill.length, 1, "Should be \"1\"");
-		test.equal(this.promise.error.length, 0, "Should be \"0\"");
+		test.equal(this.promise.fulfill.length, 2, "Should be \"2\"");
+		test.equal(this.promise.error.length, 1, "Should be \"1\"");
 		test.done();
 	}
 };
@@ -22,7 +24,7 @@ exports["kept"] = {
 	setUp: function (done) {
 		this.outcome = "verified";
 		this.handler = function (arg) { return arg; };
-		this.promise = assure();
+		this.promise = assure().promise;
 		done();
 	},
 	test: function (test) {
@@ -32,7 +34,7 @@ exports["kept"] = {
 		test.notEqual(this.promise.then(this.handler), this.promise, "Should be a new instance");
 		test.equal(this.promise.state, "pending", "Should be \"pending\"");
 		test.equal(this.promise.resolved(), false, "Should be false");
-		test.equal(this.promise.fulfill.length, 1, "Should be \"1\"");
+		test.equal(this.promise.fulfill.length, 2, "Should be \"2\"");
 		test.equal(this.promise.resolve(this.outcome), this.promise, "Should match");
 		setTimeout(function () {
 			test.equal(self.promise.outcome, self.outcome, "Should match");
@@ -50,7 +52,7 @@ exports["unkept"] = {
 		this.outcome = "failed";
 		this.success = function (arg) { return arg; };
 		this.failure = function (arg) { throw Error(arg); };
-		this.promise = assure();
+		this.promise = assure().promise;
 		done();
 	},
 	test: function (test) {
@@ -60,7 +62,7 @@ exports["unkept"] = {
 		test.notEqual(this.promise.then(this.success, this.failure), this.promise, "Should be a new instance");
 		test.equal(this.promise.state, "pending", "Should be \"pending\"");
 		test.equal(this.promise.resolved(), false, "Should be false");
-		test.equal(this.promise.fulfill.length, 1, "Should be \"1\"");
+		test.equal(this.promise.fulfill.length, 2, "Should be \"2\"");
 		test.equal(typeof this.promise.error[0], "function", "Should be \"function\"");
 		test.equal(this.promise.reject(this.outcome), this.promise, "Should match");
 		setTimeout(function () {
