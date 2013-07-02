@@ -1,6 +1,16 @@
 // Array lengths are +1 because the Promise is encapsulated in a Deferred
+var assure = require("../lib/assure.js"),
+    delay;
 
-var assure = require("../lib/assure.js");
+delay = ( function () {
+	if ( typeof setImmediate !== "undefined" ) {
+		return setImmediate;
+	}
+	else {
+		return process.nextTick;
+	}
+})();
+
 
 exports["verify"] = {
 	setUp: function (done) {
@@ -36,14 +46,14 @@ exports["kept"] = {
 		test.equal(this.promise.resolved(), false, "Should be false");
 		test.equal(this.promise.fulfill.length, 2, "Should be \"2\"");
 		test.equal(this.promise.resolve(this.outcome), this.promise, "Should match");
-		setTimeout(function () {
+		delay(function () {
 			test.equal(self.promise.outcome, self.outcome, "Should match");
 			test.equal(self.promise.resolved(), true, "Should be true");
 			test.equal(self.promise.fulfill.length, 0, "Should match");
 			test.equal(self.promise.error.length, 0, "Should be \"0\"");
 			test.equal(Object.isFrozen(self.promise), true, "Should match");
 			test.done();
-		}, 0);
+		});
 	}
 };
 
@@ -65,13 +75,13 @@ exports["unkept"] = {
 		test.equal(this.promise.fulfill.length, 2, "Should be \"2\"");
 		test.equal(typeof this.promise.error[0], "function", "Should be \"function\"");
 		test.equal(this.promise.reject(this.outcome), this.promise, "Should match");
-		setTimeout(function () {
+		delay(function () {
 			test.equal(self.promise.resolved(), true, "Should be true");
 			test.equal(self.promise.outcome, self.outcome, "Should match");
 			test.equal(self.promise.fulfill.length, 0, "Should be \"0\"");
 			test.equal(self.promise.error.length, 0, "Should be \"0\"");
 			test.equal(Object.isFrozen(self.promise), true, "Should be frozen");
 			test.done();
-		}, 0);
+		});
 	}
 };
