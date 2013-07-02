@@ -5,7 +5,7 @@
  */
 var delay = ( function () {
 	if ( typeof process !== "undefined" ) {
-		return process.nextTick;
+		return setImmediate || process.nextTick;
 	}
 	else {
 		return function ( arg ) {
