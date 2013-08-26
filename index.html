@@ -38,16 +38,16 @@
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Outcome: "</span> <span class="o">+</span> <span class="nx">arg</span><span class="p">);</span>
-<span class="p">});</span>
+deferred.done(function (arg) {
+    console.log("Outcome: " + arg);
+});
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">always</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">...</span>
-<span class="p">});</span>
-</pre></div>
+deferred.always(function (arg) {
+    ...
+});
+</code></pre>
 
 <h2>
 <a name="what-is-supported" class="anchor" href="#what-is-supported"><span class="octicon octicon-link"></span></a>What is Supported?</h2>
@@ -76,18 +76,18 @@
 
 <p>Registers a function to execute after Promise is reconciled</p>
 
-<pre><code>@param  {Function} arg Function to execute
-@return {Object}       Deferred
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">always</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"This is always going to run"</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+deferred.always(function() {
+    console.log("This is always going to run");
+});
+</code></pre>
 
 <h3>
 <a name="done" class="anchor" href="#done"><span class="octicon octicon-link"></span></a>done</h3>
@@ -97,18 +97,18 @@
 
 <p>Registers a function to execute after Promise is resolved</p>
 
-<pre><code>@param  {Function} arg Function to execute
-@return {Object}       Deferred
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"This is going to run if Promise is resolved"</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+deferred.done(function() {
+    console.log("This is going to run if Promise is resolved");
+});
+</code></pre>
 
 <h3>
 <a name="fail" class="anchor" href="#fail"><span class="octicon octicon-link"></span></a>fail</h3>
@@ -118,18 +118,18 @@
 
 <p>Registers a function to execute after Promise is rejected</p>
 
-<pre><code>@param  {Function} arg Function to execute
-@return {Object}       Deferred
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"This is going to run if Promise is rejected"</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+deferred.fail(function() {
+    console.log("This is going to run if Promise is rejected");
+});
+</code></pre>
 
 <h3>
 <a name="isrejected" class="anchor" href="#isrejected"><span class="octicon octicon-link"></span></a>isRejected</h3>
@@ -139,15 +139,15 @@
 
 <p>Determines if Deferred is rejected</p>
 
-<pre><code>@return {Boolean} `true` if rejected
+<pre><code>return {Boolean} `true` if rejected
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">();</span> <span class="c1">// false, it's brand new!</span>
-</pre></div>
+deferred.isRejected(); // false, it's brand new!
+</code></pre>
 
 <h3>
 <a name="isresolved" class="anchor" href="#isresolved"><span class="octicon octicon-link"></span></a>isResolved</h3>
@@ -157,15 +157,15 @@
 
 <p>Determines if Deferred is resolved</p>
 
-<pre><code>@return {Boolean} `true` if resolved
+<pre><code>return {Boolean} `true` if resolved
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">();</span> <span class="c1">// false, it's brand new!</span>
-</pre></div>
+deferred.isResolved(); // false, it's brand new!
+</code></pre>
 
 <h3>
 <a name="reject" class="anchor" href="#reject"><span class="octicon octicon-link"></span></a>reject</h3>
@@ -175,20 +175,20 @@
 
 <p>Breaks a Promise</p>
 
-<pre><code>@param  {Mixed} arg Promise outcome
-@return {Object}    Promise
+<pre><code>param  {Mixed} arg Promise outcome
+return {Object}    Promise
 </code></pre>
 
 <p><strong><em>Example</em></strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">});</span>
+deferred.then(null, function (e) {
+    console.error(e);
+});
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="s2">"rejected"</span><span class="p">);</span>
-</pre></div>
+deferred.reject("rejected");
+</code></pre>
 
 <h3>
 <a name="resolve" class="anchor" href="#resolve"><span class="octicon octicon-link"></span></a>resolve</h3>
@@ -198,20 +198,20 @@
 
 <p>Promise is resolved</p>
 
-<pre><code>@param  {Mixed} arg Promise outcome
-@return {Object}    Promise
+<pre><code>param  {Mixed} arg Promise outcome
+return {Object}    Promise
 </code></pre>
 
 <p><strong><em>Example</em></strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arg</span><span class="p">);</span>
-<span class="p">});</span>
+deferred.then(function (arg) {
+    console.log(arg);
+});
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s2">"resolved"</span><span class="p">);</span>
-</pre></div>
+deferred.resolve("resolved");
+</code></pre>
 
 <h3>
 <a name="state" class="anchor" href="#state"><span class="octicon octicon-link"></span></a>state</h3>
@@ -221,15 +221,15 @@
 
 <p>Gets the state of the Promise</p>
 
-<pre><code>@return {String} Describes the state
+<pre><code>return {String} Describes the state
 </code></pre>
 
 <p><strong>Example</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">state</span><span class="p">();</span> <span class="c1">// `pending`</span>
-</pre></div>
+deferred.state(); // `pending`
+</code></pre>
 
 <h3>
 <a name="then" class="anchor" href="#then"><span class="octicon octicon-link"></span></a>then</h3>
@@ -239,33 +239,53 @@
 
 <p>Registers handler(s) for a Promise</p>
 
-<pre><code>@param  {Function} success Executed when/if promise is resolved
-@param  {Function} failure [Optional] Executed when/if promise is broken
-@return {Object}           New Promise instance
+<pre><code>param  {Function} success Executed when/if promise is resolved
+param  {Function} failure [Optional] Executed when/if promise is broken
+return {Object}           New Promise instance
 </code></pre>
 
 <p><strong><em>Example</em></strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">assure</span><span class="p">();</span>
+<pre><code>var deferred = assure();
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Promise succeeded!"</span><span class="p">);</span>
-<span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">"Promise failed!"</span><span class="p">);</span>
-<span class="p">});</span>
+deferred.then(function (arg) {
+    console.log("Promise succeeded!");
+}, function (e) {
+    console.error("Promise failed!");
+});
 
-<span class="nx">deferred</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s2">"resolved"</span><span class="p">);</span>
-</pre></div>
+deferred.resolve("resolved");
+</code></pre>
+
+<h3>
+<a name="when" class="anchor" href="#when"><span class="octicon octicon-link"></span></a>when</h3>
+
+<h4>
+<a name="method-9" class="anchor" href="#method-9"><span class="octicon octicon-link"></span></a>Method</h4>
+
+<p>Accepts Deferreds or Promises as arguments or an Array</p>
+
+<pre><code>return {Object} Deferred
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>var d1 = assure(),
+    d2 = assure(),
+    d3 = assure();
+
+...
+
+when(d1,d2,d3).then(function (values) {
+    ...
+});
+</code></pre>
 
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p>assure is licensed under BSD-3 <a href="https://raw.github.com/avoidwork/assure/master/LICENSE">https://raw.github.com/avoidwork/assure/master/LICENSE</a></p>
-
-<h3>
-<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h3>
-
-<p>Copyright (c) 2013, Jason Mulligan <a href="mailto:jason.mulligan@avoidwork.com">jason.mulligan@avoidwork.com</a></p>
+<p>Copyright (c) 2013 Jason Mulligan<br>
+Licensed under the BSD-3 license.</p>
       </section>
     </div>
 
