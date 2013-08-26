@@ -3,7 +3,7 @@
  *
  * @return {Function} Async method
  */
-var delay = ( function () {
+var delay = function () {
 	if ( typeof setImmediate !== "undefined" ) {
 		return setImmediate;
 	}
@@ -15,4 +15,4 @@ var delay = ( function () {
 			setTimeout( arg, 0 );
 		};
 	}
-})();
+}();

@@ -1,9 +1,31 @@
 /**
- * Promises/A+ implementation
+ * Promises/A+
  *
  * @class promise
+ * @namespace abaaso
  */
 var promise = {
+	/**
+	 * Async delay strategy
+	 *
+	 * @method delay
+	 * @private
+	 * @return {Function} Delay method
+	 */
+	delay : function () {
+		if ( typeof setImmediate !== "undefined" ) {
+			return setImmediate;
+		}
+		else if ( typeof process !== "undefined" ) {
+			return process.nextTick;
+		}
+		else {
+			return function ( arg ) {
+				setTimeout( arg, 0 );
+			};
+		}
+	}(),
+
 	/**
 	 * Promise factory
 	 *
@@ -14,271 +36,192 @@ var promise = {
 		return new Promise();
 	},
 
-	// Caching if this function is available
-	freeze : (function () {
-		return ( typeof Object.freeze === "function" );
-	})(),
-
-	// Inherited by promises
-	methods : {
-		/**
-		 * Breaks a Promise
-		 *
-		 * @method reject
-		 * @param  {Mixed} arg Promise outcome
-		 * @return {Object} Promise
-		 */
-		reject : function ( arg ) {
-			var self = this;
-
-			delay( function () {
-				promise.resolve.call( self, promise.state.broken, arg );
-			});
-
-			return this;
-		},
-
-		/**
-		 * Promise is resolved
-		 *
-		 * @method resolve
-		 * @param  {Mixed} arg Promise outcome
-		 * @return {Object}    Promise
-		 */
-		resolve : function ( arg ) {
-			var self = this;
-
-			delay( function () {
-				promise.resolve.call( self, promise.state.resolved, arg );
-			});
-
-			return this;
-		},
-
-		/**
-		 * Returns a boolean indicating state of the Promise
-		 *
-		 * @method resolved
-		 * @return {Boolean} `true` if resolved
-		 */
-		resolved : function () {
-			return ( this.state === promise.state.broken || this.state === promise.state.resolved );
-		},
-
-		/**
-		 * Registers handler(s) for a Promise
-		 *
-		 * @method then
-		 * @param  {Function} success Executed when/if promise is resolved
-		 * @param  {Function} failure [Optional] Executed when/if promise is broken
-		 * @return {Object}           New Promise instance
-		 */
-		then : function ( success, failure ) {
-			var self     = this,
-			    deferred = promise.factory(),
-			    fn;
-
-			fn = function ( yay ) {
-				var handler = yay ? success : failure,
-				    error   = yay ? false   : true,
-				    result;
-
-				try {
-					result = handler.call( undefined, self.outcome );
-					error  = false;
-				}
-				catch ( e ) {
-					result = e;
-					error  = true;
-
-					if ( result !== undefined && !( result instanceof Error ) ) {
-						// Encoding Array or Object as a JSON string for transmission
-						if ( typeof result === "object" ) {
-							result = JSON.stringify( result );
-						}
-
-						// Casting to an Error to fix context
-						result = new Error( result );
-					}
-				}
-				finally {
-					// Not a Promise, passing result & chaining if applicable
-					if ( !( result instanceof Promise ) ) {
-						// This is clearly a mistake on the dev's part
-						if ( error && result === undefined ) {
-							throw new Error( label.invalidArguments );
-						}
-						else {
-							deferred[!error ? "resolve" : "reject"]( result || self.outcome );
-						}
-					}
-					// Assuming a `pending` state until `result` is resolved
-					else {
-						self.state        = promise.state.pending;
-						self.outcome      = null;
-						result.parentNode = self;
-						result.then( function ( arg ) {
-							self.childNodes.forEach( function ( i ) {
-								i.resolve( arg );
-							});
-						}, function ( e ) {
-							self.childNodes.forEach( function ( i ) {
-								i.reject( e );
-							});
-						});
-					}
-
-					return result;
-				}
-			};
-
-			if ( typeof success === "function" ) {
-				promise.vouch.call( self, promise.state.resolved, function () {
-					return fn( true );
-				});
-			}
-
-			if ( typeof failure === "function" ) {
-				promise.vouch.call( self, promise.state.broken, function () {
-					return fn( false );
-				});
-			}
-
-			// Setting references
-			deferred.parentNode = self;
-			self.childNodes.push( deferred );
-
-			return deferred;
-		}
-	},
-
 	/**
-	 * Resolves a Promise (fulfilled or failed)
+	 * Pipes a reconciliation from `parent` to `child`
 	 *
-	 * @method resolve
-	 * @param  {String} state State to resolve
-	 * @param  {String} val   Value to set
-	 * @return {Object}       Promise instance
+	 * @method pipe
+	 * @private
+	 * @param  {Object} parent Promise
+	 * @param  {Object} child  Promise
+	 * @return {Undefined}     undefined
 	 */
-	resolve : function ( state, val ) {
-		var handler = state === promise.state.broken ? "error" : "fulfill",
-		    self    = this,
-		    pending = false,
-		    error   = false,
-		    purge   = [],
-		    i, reason, result;
-
-		if ( this.state !== promise.state.pending ) {
-			// Walking "forward" from a reverse chain or a fork, we've already been here...
-			if ( ( this.parentNode !== null && this.parentNode.state === promise.state.resolved ) || this.childNodes.length > 0 ) {
-				return;
-			}
-			else {
-				throw new Error( label.promiseResolved.replace( "{{outcome}}", this.outcome ) );
-			}
-		}
-
-		this.state   = state;
-		this.outcome = val;
-
-		// The state & outcome can mutate here
-		this[handler].forEach( function ( fn, idx ) {
-			result = fn.call( self, val );
-			purge.push( idx );
-
-			if ( result instanceof Promise ) {
-				pending      = true;
-				self.outcome = null;
-				self.state   = promise.state.pending;
-
-				return false;
-			}
-			else if ( result instanceof Error ) {
-				error  = true;
-				reason = result;
-				state  = promise.state.broken;
-			}
+	pipe : function ( parent, child ) {
+		parent.then( function ( arg ) {
+			child.resolve( arg );
+		}, function ( e ) {
+			child.reject( e );
 		});
-
-		if ( !pending ) {
-			this.error   = [];
-			this.fulfill = [];
-
-			// Possible jump to 'resolve' logic
-			if ( !error ) {
-				result = reason;
-				state  = promise.state.resolved;
-			}
-
-			// Reverse chaining
-			if ( this.parentNode !== null && this.parentNode.state === promise.state.pending ) {
-				this.parentNode[state === promise.state.resolved ? "resolve" : "reject"]( result || this.outcome );
-			}
-
-			// Freezing promise
-			if ( promise.freeze ) {
-				Object.freeze( this );
-			}
-
-			return this;
-		}
-		else {
-			// Removing handlers that have run
-			i = purge.length;
-			while ( i-- ) {
-				self[handler].splice( i, 1 );
-			}
-
-			return result;
-		}
-	},
-
-	// States of a promise
-	state : {
-		broken   : "rejected",
-		pending  : "pending",
-		resolved : "fulfilled"
 	},
 
 	/**
-	 * Vouches for a state
+	 * States of a Promise
 	 *
-	 * @method vouch
-	 * @param  {String}   state Promise descriptor
-	 * @param  {Function} fn    Function to execute
-	 * @return {Object}         Promise instance
+	 * @private
+	 * @type {Object}
 	 */
-	vouch : function ( state, fn ) {
-		if ( state === "" ) {
-			throw new Error( label.invalidArguments );
-		}
-
-		if ( this.state === promise.state.pending ) {
-			this[state === promise.state.resolved ? "fulfill" : "error"].push( fn );
-		}
-		else if ( this.state === state ) {
-			fn( this.outcome );
-		}
-
-		return this;
+	state : {
+		PENDING : 0,
+		FAILURE : 1,
+		SUCCESS : 2
 	}
 };
 
 /**
- * Promise factory
+ * Promise
  *
- * @class Promise
+ * @method Promise
+ * @private
+ * @constructor
  * @return {Object} Instance of Promise
  */
 function Promise () {
-	this.childNodes = [];
-	this.error      = [];
-	this.fulfill    = [];
-	this.parentNode = null;
-	this.outcome    = null;
-	this.state      = promise.state.pending;
+	this.deferred = false;
+	this.handlers = [];
+	this.state    = promise.state.PENDING;
+	this.value    = null;
 }
 
-// Setting prototype & constructor loop
-Promise.prototype = promise.methods;
+// Setting constructor loop
 Promise.prototype.constructor = Promise;
+
+/**
+ * Processes `handlers` queue
+ *
+ * @method process
+ * @return {Object} Promise
+ */
+Promise.prototype.process = function() {
+	var result, success, value;
+
+	this.deferred = false;
+
+	if ( this.state === promise.state.PENDING ) {
+		return;
+	}
+
+	value   = this.value;
+	success = this.state === promise.state.SUCCESS;
+
+	this.handlers.slice().forEach( function ( i ) {
+		var callback = i[success ? "success" : "failure" ],
+		    child    = i.promise;
+
+		if ( !callback || typeof callback !== "function" ) {
+			if ( value && typeof value.then === "function" ) {
+				promise.pipe( value, child );
+			}
+			else {
+				if ( success ) {
+					child.resolve( value );
+				} else {
+					child.reject( value );
+				}
+			}
+
+			return;
+		}
+
+		try {
+			result = callback( value );
+		}
+		catch ( e ) {
+			child.reject( e );
+
+			return;
+		}
+
+		if ( result && typeof result.then === "function" ) {
+			promise.pipe( result, promise );
+		}
+		else {
+			child.resolve( result );
+		}
+	});
+
+	return this;
+};
+
+/**
+ * Breaks a Promise
+ *
+ * @method reject
+ * @param  {Mixed} arg Promise value
+ * @return {Object}    Promise
+ */
+Promise.prototype.reject = function ( arg ) {
+	var self = this;
+
+	if ( this.state > promise.state.PENDING ) {
+		return;
+	}
+
+	this.value = arg;
+	this.state = promise.state.FAILURE;
+
+	if ( !this.deferred ) {
+		promise.delay( function () {
+			self.process();
+		});
+
+		this.deferred = true;
+	}
+
+	return this;
+};
+
+/**
+ * Resolves a Promise
+ *
+ * @method resolve
+ * @param  {Mixed} arg Promise value
+ * @return {Object}    Promise
+ */
+Promise.prototype.resolve = function ( arg ) {
+	var self = this;
+
+	if ( this.state > promise.state.PENDING ) {
+		return;
+	}
+
+	this.value = arg;
+	this.state = promise.state.SUCCESS;
+
+	if ( !this.deferred ) {
+		promise.delay( function () {
+			self.process();
+		} );
+
+		this.deferred = true;
+	}
+
+	return this;
+};
+
+/**
+ * Registers handler(s) for a Promise
+ *
+ * @method then
+ * @param  {Function} success [Optional] Success handler for eventual value
+ * @param  {Function} failure [Optional] Failure handler for eventual value
+ * @return {Object}           New Promise instance
+ */
+Promise.prototype.then = function ( success, failure ) {
+	var self  = this,
+	    child = new Promise();
+
+	this.handlers.push( {
+		success : success,
+		failure : failure,
+		promise : child
+	} );
+
+	if ( this.state > promise.state.PENDING && !this.deferred ) {
+		promise.delay( function () {
+			self.process();
+		});
+
+		this.deferred = true;
+	}
+
+	return child;
+};

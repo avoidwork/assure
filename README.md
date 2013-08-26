@@ -1,11 +1,12 @@
-[![build status](https://secure.travis-ci.org/avoidwork/assure.png)](http://travis-ci.org/avoidwork/assure)
 # assure
 
 Promises/A+ micro library to help with asynchronous work flow. The deferred methods match jQuery's when possible for convenience and familiarity, but under the hood it is a Promises/A+ spec!
 
+[![build status](https://secure.travis-ci.org/avoidwork/assure.png)](http://travis-ci.org/avoidwork/assure)
+
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.done(function (arg) {
@@ -16,7 +17,6 @@ deferred.always(function (arg) {
 	...
 });
 ```
-
 
 ## What is Supported?
 
@@ -39,12 +39,12 @@ A `then()` will return a ***new*** Promise which is in a hierarchal relationship
 
 Registers a function to execute after Promise is reconciled
 
-	@param  {Function} arg Function to execute
-	@return {Object}       Deferred
+	param  {Function} arg Function to execute
+	return {Object}       Deferred
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.always(function() {
@@ -57,12 +57,12 @@ deferred.always(function() {
 
 Registers a function to execute after Promise is resolved
 
-	@param  {Function} arg Function to execute
-	@return {Object}       Deferred
+	param  {Function} arg Function to execute
+	return {Object}       Deferred
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.done(function() {
@@ -75,12 +75,12 @@ deferred.done(function() {
 
 Registers a function to execute after Promise is rejected
 
-	@param  {Function} arg Function to execute
-	@return {Object}       Deferred
+	param  {Function} arg Function to execute
+	return {Object}       Deferred
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.fail(function() {
@@ -93,11 +93,11 @@ deferred.fail(function() {
 
 Determines if Deferred is rejected
 
-	@return {Boolean} `true` if rejected
+	return {Boolean} `true` if rejected
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.isRejected(); // false, it's brand new!
@@ -108,11 +108,11 @@ deferred.isRejected(); // false, it's brand new!
 
 Determines if Deferred is resolved
 
-	@return {Boolean} `true` if resolved
+	return {Boolean} `true` if resolved
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.isResolved(); // false, it's brand new!
@@ -122,12 +122,12 @@ deferred.isResolved(); // false, it's brand new!
 #### Method
 Breaks a Promise
 
-	@param  {Mixed} arg Promise outcome
-	@return {Object}    Promise
+	param  {Mixed} arg Promise outcome
+	return {Object}    Promise
 
 ***Example***
 
-```javascript
+```
 var deferred = assure();
 
 deferred.then(null, function (e) {
@@ -141,12 +141,12 @@ deferred.reject("rejected");
 #### Method
 Promise is resolved
 
-	@param  {Mixed} arg Promise outcome
-	@return {Object}    Promise
+	param  {Mixed} arg Promise outcome
+	return {Object}    Promise
 
 ***Example***
 
-```javascript
+```
 var deferred = assure();
 
 deferred.then(function (arg) {
@@ -161,11 +161,11 @@ deferred.resolve("resolved");
 
 Gets the state of the Promise
 
-	@return {String} Describes the state
+	return {String} Describes the state
 
 **Example**
 
-```javascript
+```
 var deferred = assure();
 
 deferred.state(); // `pending`
@@ -175,13 +175,13 @@ deferred.state(); // `pending`
 #### Method
 Registers handler(s) for a Promise
 
-	@param  {Function} success Executed when/if promise is resolved
-	@param  {Function} failure [Optional] Executed when/if promise is broken
-	@return {Object}           New Promise instance
+	param  {Function} success Executed when/if promise is resolved
+	param  {Function} failure [Optional] Executed when/if promise is broken
+	return {Object}           New Promise instance
 
 ***Example***
 
-```javascript
+```
 var deferred = assure();
 
 deferred.then(function (arg) {
@@ -193,10 +193,26 @@ deferred.then(function (arg) {
 deferred.resolve("resolved");
 ```
 
+### when
+#### Method
+Accepts Deferreds or Promises as arguments or an Array
+
+	return {Object} Deferred
+
+***Example***
+
+```
+var d1 = assure(),
+    d2 = assure(),
+    d3 = assure();
+
+...
+
+when(d1,d2,d3).then(function (values) {
+	...
+});
+```
+
 ## License
-
-assure is licensed under BSD-3 https://raw.github.com/avoidwork/assure/master/LICENSE
-
-### Copyright
-
-Copyright (c) 2013, Jason Mulligan <jason.mulligan@avoidwork.com>
+Copyright (c) 2013 Jason Mulligan  
+Licensed under the BSD-3 license.

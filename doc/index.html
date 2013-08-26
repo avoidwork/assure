@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">README.md</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="assure">assure</h1>
+
+<p>Promises/A+ micro library to help with asynchronous work flow. The deferred methods match jQuery's when possible for convenience and familiarity, but under the hood it is a Promises/A+ spec!</p>
+
+<p><a href="http://travis-ci.org/avoidwork/assure"><img src="https://secure.travis-ci.org/avoidwork/assure.png" alt="build status" title="" /></a></p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.done(function (arg) {
+    console.log("Outcome: " + arg);
+});
+
+deferred.always(function (arg) {
+    ...
+});
+</code></pre>
+
+<h2 id="what-is-supported">What is Supported?</h2>
+
+<ul>
+<li>AMD loaders (require.js, cujo.js, etc.)</li>
+<li>node.js (npm install assure)</li>
+<li>script tag</li>
+</ul>
+
+<h2 id="how-do-i-use-this">How do I use this?</h2>
+
+<p>Promises (deferreds/futures/etc.) are a way to create a tangible connection between <code>now</code> and an eventual outcome. Promises are a good pattern for asynchronous I/O, such as API interaction, AJAX operations, etc., by providing optional <code>success</code> &amp; <code>failure</code> handling.</p>
+
+<p>Promise reconciliation is asynchronous, allowing you to chain multiple Promises together in a hierarchy, for resolution. If a <code>Promise</code> returns a new <code>Promise</code> from a handler, you've effectively branched during reconciliation, like a T, which puts the "parent" of the new <code>Promise</code> into a pending state, which can only be reconciled from the branch.</p>
+
+<p>A <code>then()</code> will return a <strong><em>new</em></strong> Promise which is in a hierarchal relationship. When a "parent" is reconciled, it's "children" inherit the outcome. Promise chains can be resolved from either end.</p>
+
+<h2 id="api">API</h2>
+
+<h3 id="always">always</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Registers a function to execute after Promise is reconciled</p>
+
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.always(function() {
+    console.log("This is always going to run");
+});
+</code></pre>
+
+<h3 id="done">done</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Registers a function to execute after Promise is resolved</p>
+
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.done(function() {
+    console.log("This is going to run if Promise is resolved");
+});
+</code></pre>
+
+<h3 id="fail">fail</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Registers a function to execute after Promise is rejected</p>
+
+<pre><code>param  {Function} arg Function to execute
+return {Object}       Deferred
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.fail(function() {
+    console.log("This is going to run if Promise is rejected");
+});
+</code></pre>
+
+<h3 id="isrejected">isRejected</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Determines if Deferred is rejected</p>
+
+<pre><code>return {Boolean} `true` if rejected
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.isRejected(); // false, it's brand new!
+</code></pre>
+
+<h3 id="isresolved">isResolved</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Determines if Deferred is resolved</p>
+
+<pre><code>return {Boolean} `true` if resolved
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.isResolved(); // false, it's brand new!
+</code></pre>
+
+<h3 id="reject">reject</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Breaks a Promise</p>
+
+<pre><code>param  {Mixed} arg Promise outcome
+return {Object}    Promise
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.then(null, function (e) {
+    console.error(e);
+});
+
+deferred.reject("rejected");
+</code></pre>
+
+<h3 id="resolve">resolve</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Promise is resolved</p>
+
+<pre><code>param  {Mixed} arg Promise outcome
+return {Object}    Promise
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.then(function (arg) {
+    console.log(arg);
+});
+
+deferred.resolve("resolved");
+</code></pre>
+
+<h3 id="state">state</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Gets the state of the Promise</p>
+
+<pre><code>return {String} Describes the state
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.state(); // `pending`
+</code></pre>
+
+<h3 id="then">then</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Registers handler(s) for a Promise</p>
+
+<pre><code>param  {Function} success Executed when/if promise is resolved
+param  {Function} failure [Optional] Executed when/if promise is broken
+return {Object}           New Promise instance
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>var deferred = assure();
+
+deferred.then(function (arg) {
+    console.log("Promise succeeded!");
+}, function (e) {
+    console.error("Promise failed!");
+});
+
+deferred.resolve("resolved");
+</code></pre>
+
+<h3 id="when">when</h3>
+
+<h4 id="method">Method</h4>
+
+<p>Accepts Deferreds or Promises as arguments or an Array</p>
+
+<pre><code>return {Object} Deferred
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>var d1 = assure(),
+    d2 = assure(),
+    d3 = assure();
+
+...
+
+when(d1,d2,d3).then(function (values) {
+    ...
+});
+</code></pre>
+
+<h2 id="license">License</h2>
+
+<p>Copyright (c) 2013 Jason Mulligan <br />
+Licensed under the BSD-3 license.</p></div></div></div></div></body></html>
