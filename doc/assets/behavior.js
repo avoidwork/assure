@@ -532,6 +532,24 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "ignorePrefix": "}",
           "name": "JavaScript"
         },
+        "sourcePath": "/Users/jason/Projects/assure/src/each.js",
+        "projectPath": "src/each.js",
+        "targetPath": "each",
+        "title": "each"
+      },
+      "depth": 1,
+      "outline": []
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
+          "nameMatchers": [".js"],
+          "pygmentsLexer": "javascript",
+          "singleLineComment": ["//"],
+          "multiLineComment": ["/*", "*", "*/"],
+          "ignorePrefix": "}",
+          "name": "JavaScript"
+        },
         "sourcePath": "/Users/jason/Projects/assure/src/intro.js",
         "projectPath": "src/intro.js",
         "targetPath": "intro",

@@ -71,7 +71,7 @@
   <span class="nx">value</span>   <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
   <span class="nx">success</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="nx">promise</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">SUCCESS</span><span class="p">;</span>
 
-  <span class="k">this</span><span class="p">.</span><span class="nx">handlers</span><span class="p">.</span><span class="nx">slice</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="nx">each</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">handlers</span><span class="p">.</span><span class="nx">slice</span><span class="p">(),</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">i</span><span class="p">[</span><span class="nx">success</span> <span class="o">?</span> <span class="s2">&quot;success&quot;</span> <span class="o">:</span> <span class="s2">&quot;failure&quot;</span> <span class="p">],</span>
         <span class="nx">child</span>    <span class="o">=</span> <span class="nx">i</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
 

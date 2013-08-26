@@ -17,7 +17,7 @@
   <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>How many instances to observe?</p></div></div><div class="code"><div class="wrapper">  <span class="nx">nth</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>None, end on next tick</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="p">(</span> <span class="nx">nth</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
     <span class="nx">defer</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span> <span class="kc">null</span> <span class="p">);</span>
   <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Setup and wait</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">args</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">each</span><span class="p">(</span> <span class="nx">args</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">p</span> <span class="p">)</span> <span class="p">{</span>
       <span class="nx">p</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span> <span class="o">++</span><span class="nx">i</span> <span class="o">===</span> <span class="nx">nth</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">defer</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">())</span> <span class="p">{</span>
           <span class="k">if</span> <span class="p">(</span> <span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
@@ -57,11 +57,11 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">onAlways</span> <span class="o">=</span> <span class="p">[];</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">onFail</span>   <span class="o">=</span> <span class="p">[];</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Setting handlers to execute Arrays of Functions</p></div></div><div class="code"><div class="wrapper">  <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
     <span class="nx">delay</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-      <span class="nx">self</span><span class="p">.</span><span class="nx">onDone</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">each</span><span class="p">(</span> <span class="nx">self</span><span class="p">.</span><span class="nx">onDone</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">i</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
       <span class="p">});</span>
 
-      <span class="nx">self</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">each</span><span class="p">(</span> <span class="nx">self</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">i</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
       <span class="p">});</span>
 
@@ -71,11 +71,11 @@
     <span class="p">});</span>
   <span class="p">},</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
     <span class="nx">delay</span><span class="p">(</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-      <span class="nx">self</span><span class="p">.</span><span class="nx">onFail</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">each</span><span class="p">(</span> <span class="nx">self</span><span class="p">.</span><span class="nx">onFail</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">i</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
       <span class="p">});</span>
 
-      <span class="nx">self</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">each</span><span class="p">(</span> <span class="nx">self</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">i</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">i</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
       <span class="p">});</span>
 

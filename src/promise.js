@@ -102,7 +102,7 @@ Promise.prototype.process = function() {
 	value   = this.value;
 	success = this.state === promise.state.SUCCESS;
 
-	this.handlers.slice().forEach( function ( i ) {
+	each( this.handlers.slice(), function ( i ) {
 		var callback = i[success ? "success" : "failure" ],
 		    child    = i.promise;
 

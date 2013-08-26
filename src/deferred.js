@@ -34,7 +34,7 @@ deferred.when = function () {
 	}
 	// Setup and wait
 	else {
-		args.forEach( function ( p ) {
+		each( args, function ( p ) {
 			p.then( function () {
 				if ( ++i === nth && !defer.isResolved()) {
 					if ( args.length > 1 ) {
@@ -82,11 +82,11 @@ function Deferred () {
 	// Setting handlers to execute Arrays of Functions
 	this.promise.then( function ( arg ) {
 		delay( function () {
-			self.onDone.forEach( function ( i ) {
+			each( self.onDone, function ( i ) {
 				i( arg );
 			});
 
-			self.onAlways.forEach( function ( i ) {
+			each( self.onAlways, function ( i ) {
 				i( arg );
 			});
 
@@ -96,11 +96,11 @@ function Deferred () {
 		});
 	}, function ( arg ) {
 		delay( function () {
-			self.onFail.forEach( function ( i ) {
+			each( self.onFail, function ( i ) {
 				i( arg );
 			});
 
-			self.onAlways.forEach( function ( i ) {
+			each( self.onAlways, function ( i ) {
 				i( arg );
 			});
 
