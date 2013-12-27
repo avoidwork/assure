@@ -33,12 +33,12 @@ Promise.prototype.constructor = Promise;
  * @return {Object} Promise instance
  */
 Promise.prototype.process = function() {
-	var result, success, value;
+	var success, value;
 
 	this.deferred = false;
 
 	if ( this.state === state.PENDING ) {
-		return;
+		return this;
 	}
 
 	value   = this.value;
@@ -46,7 +46,8 @@ Promise.prototype.process = function() {
 
 	each( this.handlers.slice(), function ( i ) {
 		var callback = i[success ? "success" : "failure" ],
-		    child    = i.promise;
+		    child    = i.promise,
+		    result;
 
 		if ( !callback || typeof callback != "function" ) {
 			if ( value && typeof value.then == "function" ) {
@@ -94,7 +95,7 @@ Promise.prototype.reject = function ( arg ) {
 	var self = this;
 
 	if ( this.state > state.PENDING ) {
-		return;
+		return this;
 	}
 
 	this.value = arg;
@@ -122,7 +123,7 @@ Promise.prototype.resolve = function ( arg ) {
 	var self = this;
 
 	if ( this.state > state.PENDING ) {
-		return;
+		return this;
 	}
 
 	this.value = arg;

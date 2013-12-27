@@ -20,7 +20,6 @@ module.exports = function (grunt) {
 					"src/deferred.js",
 					"src/delay.js",
 					"src/each.js",
-					"src/label.js",
 					"src/pipe.js",
 					"src/promise.js",
 					"src/state.js",

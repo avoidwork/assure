@@ -122,17 +122,9 @@ Deferred.prototype.constructor = Deferred;
  * @return {Object}       Deferred instance
  */
 Deferred.prototype.always = function ( arg ) {
-	if ( typeof arg != "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onAlways.push( arg );
 	}
-	else if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-	else if ( this.isRejected() ) {
-		throw new Error( label.promiseRejected.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onAlways.push( arg );
 
 	return this;
 };
@@ -145,17 +137,9 @@ Deferred.prototype.always = function ( arg ) {
  * @return {Object}       Deferred instance
  */
 Deferred.prototype.done = function ( arg ) {
-	if ( typeof arg != "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onDone.push( arg );
 	}
-	else if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-	else if ( this.isRejected() ) {
-		throw new Error( label.promiseRejected.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onDone.push( arg );
 
 	return this;
 };
@@ -168,17 +152,9 @@ Deferred.prototype.done = function ( arg ) {
  * @return {Object}       Deferred instance
  */
 Deferred.prototype.fail = function ( arg ) {
-	if ( typeof arg != "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onFail.push( arg );
 	}
-	else if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-	else if ( this.isRejected() ) {
-		throw new Error( label.promiseRejected.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onFail.push( arg );
 
 	return this;
 };
@@ -211,7 +187,7 @@ Deferred.prototype.isResolved = function () {
  * @return {Object}    Deferred instance
  */
 Deferred.prototype.reject = function ( arg ) {
-	this.promise.reject.call( this.promise, arg );
+	this.promise.reject( arg );
 
 	return this;
 };
@@ -224,7 +200,7 @@ Deferred.prototype.reject = function ( arg ) {
  * @return {Object}    Deferred instance
  */
 Deferred.prototype.resolve = function ( arg ) {
-	this.promise.resolve.call( this.promise, arg );
+	this.promise.resolve( arg );
 
 	return this;
 };
@@ -248,15 +224,5 @@ Deferred.prototype.state = function () {
  * @return {Object}           New Promise instance
  */
 Deferred.prototype.then = function ( success, failure ) {
-	if ( typeof success != "function" && typeof failure != "function" ) {
-		throw new Error( label.invalidArguments );
-	}
-	else if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-	else if ( this.isRejected() ) {
-		throw new Error( label.promiseRejected.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
 	return this.promise.then( success, failure );
 };
