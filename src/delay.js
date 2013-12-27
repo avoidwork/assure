@@ -1,13 +1,15 @@
 /**
  * Strategy for detemining async method
  *
+ * @type {Function}
+ * @private
  * @return {Function} Async method
  */
 var delay = function () {
-	if ( typeof setImmediate !== "undefined" ) {
+	if ( typeof setImmediate != "undefined" ) {
 		return setImmediate;
 	}
-	else if ( typeof process !== "undefined" ) {
+	else if ( typeof process != "undefined" ) {
 		return process.nextTick;
 	}
 	else {

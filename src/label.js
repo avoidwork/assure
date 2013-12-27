@@ -1,4 +1,11 @@
+/**
+ * Label pack
+ *
+ * @private
+ * @type {Object}
+ */
 var label = {
 	invalidArguments : "Invalid arguments",
-	promiseResolved  : "The promise has been resolved: {{outcome}}"
+	promiseRejected  : "Rejected: {{outcome}}",
+	promiseResolved  : "Resolved: {{outcome}}"
 };

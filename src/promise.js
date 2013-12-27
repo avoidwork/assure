@@ -1,70 +1,13 @@
 /**
- * Promises/A+
+ * Promise factor
  *
- * @class promise
- * @namespace abaaso
+ * @method promise
+ * @private
+ * @return {Object} Promise instance
  */
-var promise = {
-	/**
-	 * Async delay strategy
-	 *
-	 * @method delay
-	 * @private
-	 * @return {Function} Delay method
-	 */
-	delay : function () {
-		if ( typeof setImmediate !== "undefined" ) {
-			return setImmediate;
-		}
-		else if ( typeof process !== "undefined" ) {
-			return process.nextTick;
-		}
-		else {
-			return function ( arg ) {
-				setTimeout( arg, 0 );
-			};
-		}
-	}(),
-
-	/**
-	 * Promise factory
-	 *
-	 * @method factory
-	 * @return {Object} Instance of promise
-	 */
-	factory : function () {
-		return new Promise();
-	},
-
-	/**
-	 * Pipes a reconciliation from `parent` to `child`
-	 *
-	 * @method pipe
-	 * @private
-	 * @param  {Object} parent Promise
-	 * @param  {Object} child  Promise
-	 * @return {Undefined}     undefined
-	 */
-	pipe : function ( parent, child ) {
-		parent.then( function ( arg ) {
-			child.resolve( arg );
-		}, function ( e ) {
-			child.reject( e );
-		});
-	},
-
-	/**
-	 * States of a Promise
-	 *
-	 * @private
-	 * @type {Object}
-	 */
-	state : {
-		PENDING : 0,
-		FAILURE : 1,
-		SUCCESS : 2
-	}
-};
+function promise () {
+	return new Promise();
+}
 
 /**
  * Promise
@@ -72,12 +15,11 @@ var promise = {
  * @method Promise
  * @private
  * @constructor
- * @return {Object} Instance of Promise
  */
 function Promise () {
 	this.deferred = false;
 	this.handlers = [];
-	this.state    = promise.state.PENDING;
+	this.state    = state.PENDING;
 	this.value    = null;
 }
 
@@ -88,27 +30,27 @@ Promise.prototype.constructor = Promise;
  * Processes `handlers` queue
  *
  * @method process
- * @return {Object} Promise
+ * @return {Object} Promise instance
  */
 Promise.prototype.process = function() {
 	var result, success, value;
 
 	this.deferred = false;
 
-	if ( this.state === promise.state.PENDING ) {
+	if ( this.state === state.PENDING ) {
 		return;
 	}
 
 	value   = this.value;
-	success = this.state === promise.state.SUCCESS;
+	success = this.state === state.SUCCESS;
 
 	each( this.handlers.slice(), function ( i ) {
 		var callback = i[success ? "success" : "failure" ],
 		    child    = i.promise;
 
-		if ( !callback || typeof callback !== "function" ) {
-			if ( value && typeof value.then === "function" ) {
-				promise.pipe( value, child );
+		if ( !callback || typeof callback != "function" ) {
+			if ( value && typeof value.then == "function" ) {
+				pipe( value, child );
 			}
 			else {
 				if ( success ) {
@@ -130,13 +72,13 @@ Promise.prototype.process = function() {
 			return;
 		}
 
-		if ( result && typeof result.then === "function" ) {
-			promise.pipe( result, promise );
+		if ( result && typeof result.then == "function" ) {
+			pipe( result, promise );
 		}
 		else {
 			child.resolve( result );
 		}
-	});
+	} );
 
 	return this;
 };
@@ -146,22 +88,22 @@ Promise.prototype.process = function() {
  *
  * @method reject
  * @param  {Mixed} arg Promise value
- * @return {Object}    Promise
+ * @return {Object}    Promise instance
  */
 Promise.prototype.reject = function ( arg ) {
 	var self = this;
 
-	if ( this.state > promise.state.PENDING ) {
+	if ( this.state > state.PENDING ) {
 		return;
 	}
 
 	this.value = arg;
-	this.state = promise.state.FAILURE;
+	this.state = state.FAILURE;
 
 	if ( !this.deferred ) {
-		promise.delay( function () {
+		delay( function () {
 			self.process();
-		});
+		} );
 
 		this.deferred = true;
 	}
@@ -174,20 +116,20 @@ Promise.prototype.reject = function ( arg ) {
  *
  * @method resolve
  * @param  {Mixed} arg Promise value
- * @return {Object}    Promise
+ * @return {Object}    Promise instance
  */
 Promise.prototype.resolve = function ( arg ) {
 	var self = this;
 
-	if ( this.state > promise.state.PENDING ) {
+	if ( this.state > state.PENDING ) {
 		return;
 	}
 
 	this.value = arg;
-	this.state = promise.state.SUCCESS;
+	this.state = state.SUCCESS;
 
 	if ( !this.deferred ) {
-		promise.delay( function () {
+		delay( function () {
 			self.process();
 		} );
 
@@ -215,10 +157,10 @@ Promise.prototype.then = function ( success, failure ) {
 		promise : child
 	} );
 
-	if ( this.state > promise.state.PENDING && !this.deferred ) {
-		promise.delay( function () {
+	if ( this.state > state.PENDING && !this.deferred ) {
+		delay( function () {
 			self.process();
-		});
+		} );
 
 		this.deferred = true;
 	}

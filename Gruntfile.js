@@ -21,7 +21,9 @@ module.exports = function (grunt) {
 					"src/delay.js",
 					"src/each.js",
 					"src/label.js",
+					"src/pipe.js",
 					"src/promise.js",
+					"src/state.js",
 					"src/outro.js"
 				],
 				dest : "lib/<%= pkg.name %>.js"
