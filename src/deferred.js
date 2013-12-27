@@ -126,7 +126,7 @@ Deferred.prototype.always = function ( arg ) {
 		throw new Error( label.invalidArguments );
 	}
 
-	if ( this.promise.resolved() ) {
+	if ( this.isResolved() ) {
 		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
 	}
 
@@ -147,7 +147,7 @@ Deferred.prototype.done = function ( arg ) {
 		throw new Error( label.invalidArguments );
 	}
 
-	if ( this.promise.resolved() ) {
+	if ( this.isResolved() ) {
 		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
 	}
 
@@ -168,7 +168,7 @@ Deferred.prototype.fail = function ( arg ) {
 		throw new Error( label.invalidArguments );
 	}
 
-	if ( this.promise.resolved() ) {
+	if ( this.isRejected() ) {
 		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
 	}
 
