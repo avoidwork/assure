@@ -36,6 +36,9 @@ module.exports = function (grunt) {
 				cmd : "echo //@ sourceMappingURL=<%= pkg.name %>.map >> lib/<%= pkg.name %>.min.js"
 			}
 		},
+		nodeunit : {
+			all : ["test/*.js"]
+		},
 		jshint : {
 			options : {
 				jshintrc : ".jshintrc"
@@ -58,8 +61,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
+	grunt.loadNpmTasks("grunt-contrib-nodeunit");
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// aliases
-	grunt.registerTask("default", ["concat", "jshint", "exec"]);
+	grunt.registerTask("test", [/*"nodeunit",*/ "jshint"]);
+	grunt.registerTask("default", ["concat", "test", "exec"]);
 };
