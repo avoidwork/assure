@@ -93,17 +93,9 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(Deferred instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">always</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">!=</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">invalidArguments</span> <span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
   <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseResolved</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseRejected</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">this</span><span class="p">.</span><span class="nx">onAlways</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
 
   <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
 <span class="p">};</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method done</span></p>
@@ -117,17 +109,9 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(Deferred instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">done</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">!=</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">invalidArguments</span> <span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">onDone</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
   <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseResolved</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseRejected</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">this</span><span class="p">.</span><span class="nx">onDone</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
 
   <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
 <span class="p">};</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method fail</span></p>
@@ -141,17 +125,9 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(Deferred instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fail</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">!=</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">invalidArguments</span> <span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">arg</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">onFail</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
   <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseResolved</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseRejected</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">this</span><span class="p">.</span><span class="nx">onFail</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
 
   <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
 <span class="p">};</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method isRejected</span></p>
@@ -177,7 +153,7 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(Deferred instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">reject</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">,</span> <span class="nx">arg</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
 
   <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
 <span class="p">};</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method resolve</span></p>
@@ -191,7 +167,7 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(Deferred instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">resolve</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">arg</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">,</span> <span class="nx">arg</span> <span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span> <span class="nx">arg</span> <span class="p">);</span>
 
   <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
 <span class="p">};</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method state</span></p>
@@ -212,15 +188,5 @@
 </ul>
 
 <p><strong>Returns an Object</strong><br/>(New Promise instance)</p></div></div><div class="code"><div class="wrapper"><span class="nx">Deferred</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">then</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">failure</span> <span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">success</span> <span class="o">!=</span> <span class="s2">&quot;function&quot;</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">failure</span> <span class="o">!=</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">invalidArguments</span> <span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isResolved</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseResolved</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">isRejected</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span> <span class="nx">label</span><span class="p">.</span><span class="nx">promiseRejected</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;{{outcome}}&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">outcome</span> <span class="p">)</span> <span class="p">);</span>
-  <span class="p">}</span>
-
   <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">failure</span> <span class="p">);</span>
 <span class="p">};</span></div></div></div></div></body></html>

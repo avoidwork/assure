@@ -568,24 +568,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "ignorePrefix": "}",
           "name": "JavaScript"
         },
-        "sourcePath": "/Users/jason/Projects/assure/src/label.js",
-        "projectPath": "src/label.js",
-        "targetPath": "label",
-        "title": "label"
-      },
-      "depth": 1,
-      "outline": []
-    }, {
-      "type": "file",
-      "data": {
-        "language": {
-          "nameMatchers": [".js"],
-          "pygmentsLexer": "javascript",
-          "singleLineComment": ["//"],
-          "multiLineComment": ["/*", "*", "*/"],
-          "ignorePrefix": "}",
-          "name": "JavaScript"
-        },
         "sourcePath": "/Users/jason/Projects/assure/src/outro.js",
         "projectPath": "src/outro.js",
         "targetPath": "outro",
