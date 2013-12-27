@@ -9,3 +9,4 @@
 .jshintrc
 .travis.yml
 Gruntfile.js
+benchmark.js

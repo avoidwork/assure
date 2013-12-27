@@ -43,9 +43,6 @@ module.exports = function (grunt) {
 			},
 			src : "lib/<%= pkg.name %>.js"
 		},
-		nodeunit : {
-			all : ["test/*.js"]
-		},
 		watch : {
 			js : {
 				files : "<%= concat.dist.src %>",
@@ -61,12 +58,9 @@ module.exports = function (grunt) {
 	// tasks
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-contrib-nodeunit");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// aliases
-	grunt.registerTask("test", [/*"nodeunit",*/ "jshint"]);
-	grunt.registerTask("build", ["concat", "exec"]);
-	grunt.registerTask("default", ["build", "test"]);
+	grunt.registerTask("default", ["concat", "jshint", "exec"]);
 };
