@@ -20,8 +20,9 @@ module.exports = function (grunt) {
 					"src/deferred.js",
 					"src/delay.js",
 					"src/each.js",
-					"src/label.js",
+					"src/pipe.js",
 					"src/promise.js",
+					"src/state.js",
 					"src/outro.js"
 				],
 				dest : "lib/<%= pkg.name %>.js"
@@ -35,14 +36,14 @@ module.exports = function (grunt) {
 				cmd : "echo //@ sourceMappingURL=<%= pkg.name %>.map >> lib/<%= pkg.name %>.min.js"
 			}
 		},
+		nodeunit : {
+			all : ["test/*.js"]
+		},
 		jshint : {
 			options : {
 				jshintrc : ".jshintrc"
 			},
 			src : "lib/<%= pkg.name %>.js"
-		},
-		nodeunit : {
-			all : ["test/*.js"]
 		},
 		watch : {
 			js : {
@@ -59,12 +60,11 @@ module.exports = function (grunt) {
 	// tasks
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-contrib-nodeunit");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
+	grunt.loadNpmTasks("grunt-contrib-nodeunit");
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// aliases
 	grunt.registerTask("test", [/*"nodeunit",*/ "jshint"]);
-	grunt.registerTask("build", ["concat", "exec"]);
-	grunt.registerTask("default", ["build", "test"]);
+	grunt.registerTask("default", ["concat", "test", "exec"]);
 };

@@ -1,18 +1,18 @@
 /**
  * Deferred factory
  *
- * @method factory
- * @return {Object} Deferred
+ * @method deferred
+ * @return {Object} Deferred instance
  */
-var deferred = function () {
+function deferred () {
 	return new Deferred();
-};
+}
 
 /**
  * Accepts Deferreds or Promises as arguments or an Array
  *
  * @method when
- * @return {Object} Deferred
+ * @return {Object} Deferred instance
  */
 deferred.when = function () {
 	var i     = 0,
@@ -36,11 +36,11 @@ deferred.when = function () {
 	else {
 		each( args, function ( p ) {
 			p.then( function () {
-				if ( ++i === nth && !defer.isResolved()) {
+				if ( ++i === nth && !defer.isResolved() ) {
 					if ( args.length > 1 ) {
 						defer.resolve( args.map( function ( obj ) {
 							return obj.value || obj.promise.value;
-						}));
+						} ) );
 					}
 					else {
 						defer.resolve( args[0].value || args[0].promise.value );
@@ -51,14 +51,14 @@ deferred.when = function () {
 					if ( args.length > 1 ) {
 						defer.reject( args.map( function ( obj ) {
 							return obj.value || obj.promise.value;
-						}));
+						} ) );
 					}
 					else {
 						defer.reject( args[0].value || args[0].promise.value );
 					}
 				}
-			});
-		});
+			} );
+		} );
 	}
 
 	return defer;
@@ -67,14 +67,14 @@ deferred.when = function () {
 /**
  * Deferred factory
  *
- * @class Deferred
- * @namespace abaaso
- * @return {Object} Instance of Deferred
+ * @method Deferred
+ * @constructor
+ * @private
  */
 function Deferred () {
 	var self      = this;
 
-	this.promise  = promise.factory();
+	this.promise  = promise();
 	this.onDone   = [];
 	this.onAlways = [];
 	this.onFail   = [];
@@ -84,31 +84,31 @@ function Deferred () {
 		delay( function () {
 			each( self.onDone, function ( i ) {
 				i( arg );
-			});
+			} );
 
 			each( self.onAlways, function ( i ) {
 				i( arg );
-			});
+			} );
 
 			self.onAlways = [];
 			self.onDone   = [];
 			self.onFail   = [];
-		});
+		} );
 	}, function ( arg ) {
 		delay( function () {
 			each( self.onFail, function ( i ) {
 				i( arg );
-			});
+			} );
 
 			each( self.onAlways, function ( i ) {
 				i( arg );
-			});
+			} );
 
 			self.onAlways = [];
 			self.onDone   = [];
 			self.onFail   = [];
-		});
-	});
+		} );
+	} );
 }
 
 // Setting constructor loop
@@ -119,18 +119,12 @@ Deferred.prototype.constructor = Deferred;
  *
  * @method always
  * @param  {Function} arg Function to execute
- * @return {Object}       Deferred
+ * @return {Object}       Deferred instance
  */
 Deferred.prototype.always = function ( arg ) {
-	if ( typeof arg !== "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onAlways.push( arg );
 	}
-
-	if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onAlways.push( arg );
 
 	return this;
 };
@@ -140,18 +134,12 @@ Deferred.prototype.always = function ( arg ) {
  *
  * @method done
  * @param  {Function} arg Function to execute
- * @return {Object}       Deferred
+ * @return {Object}       Deferred instance
  */
 Deferred.prototype.done = function ( arg ) {
-	if ( typeof arg !== "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onDone.push( arg );
 	}
-
-	if ( this.isResolved() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onDone.push( arg );
 
 	return this;
 };
@@ -161,18 +149,12 @@ Deferred.prototype.done = function ( arg ) {
  *
  * @method fail
  * @param  {Function} arg Function to execute
- * @return {Object}       Deferred
+ * @return {Object}       Deferred instance
  */
 Deferred.prototype.fail = function ( arg ) {
-	if ( typeof arg !== "function" ) {
-		throw new Error( label.invalidArguments );
+	if ( !this.isResolved() && !this.isRejected() && typeof arg == "function" ) {
+		this.onFail.push( arg );
 	}
-
-	if ( this.isRejected() ) {
-		throw new Error( label.promiseResolved.replace( "{{outcome}}", this.promise.outcome ) );
-	}
-
-	this.onFail.push( arg );
 
 	return this;
 };
@@ -184,7 +166,7 @@ Deferred.prototype.fail = function ( arg ) {
  * @return {Boolean} `true` if rejected
  */
 Deferred.prototype.isRejected = function () {
-	return ( this.promise.state === promise.state.FAILURE );
+	return ( this.state === state.FAILURE );
 };
 
 /**
@@ -194,7 +176,7 @@ Deferred.prototype.isRejected = function () {
  * @return {Boolean} `true` if resolved
  */
 Deferred.prototype.isResolved = function () {
-	return ( this.promise.state === promise.state.SUCCESS );
+	return ( this.state === state.SUCCESS );
 };
 
 /**
@@ -202,10 +184,10 @@ Deferred.prototype.isResolved = function () {
  *
  * @method reject
  * @param  {Mixed} arg Rejection outcome
- * @return {Object}    Deferred
+ * @return {Object}    Deferred instance
  */
 Deferred.prototype.reject = function ( arg ) {
-	this.promise.reject.call( this.promise, arg );
+	this.promise.reject( arg );
 
 	return this;
 };
@@ -215,10 +197,10 @@ Deferred.prototype.reject = function ( arg ) {
  *
  * @method resolve
  * @param  {Mixed} arg Resolution outcome
- * @return {Object}    Deferred
+ * @return {Object}    Deferred instance
  */
 Deferred.prototype.resolve = function ( arg ) {
-	this.promise.resolve.call( this.promise, arg );
+	this.promise.resolve( arg );
 
 	return this;
 };
@@ -230,7 +212,7 @@ Deferred.prototype.resolve = function ( arg ) {
  * @return {Number} Describes the state
  */
 Deferred.prototype.state = function () {
-	return this.promise.state;
+	return this.state;
 };
 
 /**
