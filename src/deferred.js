@@ -166,7 +166,7 @@ Deferred.prototype.fail = function ( arg ) {
  * @return {Boolean} `true` if rejected
  */
 Deferred.prototype.isRejected = function () {
-	return ( this.state === state.FAILURE );
+	return ( this.promise.state === state.FAILURE );
 };
 
 /**
@@ -176,7 +176,7 @@ Deferred.prototype.isRejected = function () {
  * @return {Boolean} `true` if resolved
  */
 Deferred.prototype.isResolved = function () {
-	return ( this.state === state.SUCCESS );
+	return ( this.promise.state === state.SUCCESS );
 };
 
 /**
@@ -212,7 +212,7 @@ Deferred.prototype.resolve = function ( arg ) {
  * @return {Number} Describes the state
  */
 Deferred.prototype.state = function () {
-	return this.state;
+	return this.promise.state;
 };
 
 /**
