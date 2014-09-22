@@ -206,7 +206,7 @@ var d1 = assure(),
 
 ...
 
-when(d1,d2,d3).then(function (values) {
+assure.when(d1,d2,d3).then(function (values) {
 	...
 });
 ```
