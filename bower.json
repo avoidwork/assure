@@ -1,0 +1,37 @@
+{
+    "name": "assure",
+    "description": "Promises/A+ micro library",
+    "version": "1.0.4",
+    "homepage": "http://avoidwork.github.io/assure/",
+    "author": {
+        "name": "Jason Mulligan",
+        "email": "jason.mulligan@avoidwork.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/avoidwork/assure.git"
+    },
+    "bugs": {
+        "url": "https://github.com/avoidwork/assure/issues"
+    },
+    "licenses": [
+        {
+            "type": "BSD-3",
+            "url": "https://raw.github.com/avoidwork/assure/master/LICENSE"
+        }
+    ],
+    "main": [
+        "lib/assure"
+    ],
+    "ignore": [
+        "Gruntfile.js",
+        "package.json",
+        ".gitignore",
+        ".jshintrc",
+        ".npmignore",
+        ".travis.yml",
+        "benchmark.js",
+        "doc",
+        "test"
+    ]
+}
