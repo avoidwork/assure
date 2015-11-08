@@ -31,6 +31,12 @@ function pipe (parent, child) {
 	});
 }
 
+function reset (obj) {
+	obj.onAlways = [];
+	obj.onDone = [];
+	obj.onFail = [];
+}
+
 const state = {
 	PENDING: 0,
 	FAILURE: 1,

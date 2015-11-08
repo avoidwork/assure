@@ -8,7 +8,6 @@ class Deferred {
 		this.onDone = [];
 		this.onAlways = [];
 		this.onFail = [];
-
 		this.bootstrap();
 	}
 
@@ -23,27 +22,23 @@ class Deferred {
 	bootstrap () {
 		this.promise.then(arg => {
 			delay(() => {
-				const listeners = ["onDone", "onAlways"];
-
-				each(listeners, array => {
+				each(["onDone", "onAlways"], array => {
 					each(this[array], i => {
 						i(arg);
 					});
 				});
 
-				this.reset();
+				reset(this);
 			});
 		}, e => {
 			delay(() => {
-				const listeners = ["onFail", "onAlways"];
-
-				each(listeners, array => {
+				each(["onFail", "onAlways"], array => {
 					each(this[array], i => {
 						i(e);
 					});
 				});
 
-				this.reset();
+				reset(this);
 			});
 		});
 	}
@@ -82,12 +77,6 @@ class Deferred {
 		this.promise.resolve(arg);
 
 		return this;
-	}
-
-	reset () {
-		this.onAlways = [];
-		this.onDone = [];
-		this.onFail = [];
 	}
 
 	state () {
