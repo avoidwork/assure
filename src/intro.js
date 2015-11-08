@@ -1,2 +1,2 @@
-( function ( global ) {
-"use strict";
+(function (global) {
+let deferred, promise;

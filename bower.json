@@ -1,7 +1,6 @@
 {
     "name": "assure",
     "description": "Promises/A+ micro library",
-    "version": "1.0.4",
     "homepage": "http://avoidwork.github.io/assure/",
     "author": {
         "name": "Jason Mulligan",

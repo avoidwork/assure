@@ -1,12 +1,9 @@
 {
   "name": "assure",
   "description": "Promises/A+ micro library",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "homepage": "http://avoidwork.github.io/assure/",
-  "author": {
-    "name": "Jason Mulligan",
-    "email": "jason.mulligan@avoidwork.com"
-  },
+  "author": "Jason Mulligan <jason.mulligan@avoidwork.com>",
   "repository": {
     "type": "git",
     "url": "git://github.com/avoidwork/assure.git"
@@ -14,12 +11,7 @@
   "bugs": {
     "url": "https://github.com/avoidwork/assure/issues"
   },
-  "licenses": [
-    {
-      "type": "BSD-3",
-      "url": "https://raw.github.com/avoidwork/assure/master/LICENSE"
-    }
-  ],
+  "license": "BSD-3-Clause",
   "main": "lib/assure",
   "engines": {
     "node": ">=0.8.0"
@@ -29,14 +21,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.6",
-    "grunt-exec": "~0.4",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-jshint": "~0.1",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-contrib-watch": "~0.2",
-    "promises-aplus-tests" : "~2.0.3"
+    "babel-preset-es2015": "^6.1.2",
+    "grunt": "^0.4.5",
+    "grunt-babel": "^6.0.0",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.1.3",
+    "grunt-contrib-uglify": "^0.10.0",
+    "grunt-contrib-watch": "^0.2.0",
+    "grunt-eslint": "^17.3.1",
+    "promises-aplus-tests": "^2.0.5"
   },
   "keywords": [
     "promises",
