@@ -24,6 +24,8 @@ function each (obj, fn) {
 }
 
 function pipe (parent, child) {
+	const isPromise = typeof child.resolve === "function";
+
 	return parent.then(function (arg) {
 		child.resolve(arg);
 	}, function (e) {

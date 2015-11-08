@@ -36,18 +36,28 @@ class Promise {
 					return;
 				}
 
-				try {
-					result = callback(value);
-				} catch (e) {
-					child.reject(e);
+				if (!callback.ran) {
+					try {
+						result = callback(value);
+						callback.ran = true;
+						callback.result = result;
+					} catch (e) {
+						callback.ran = true;
+						callback.result = e;
+						child.reject(e);
 
-					return;
+						return;
+					}
+				} else {
+					result = callback.result;
 				}
 
 				if (result && typeof result.then === "function") {
 					pipe(result, promise);
-				} else {
+				} else if (!result instanceof Error) {
 					child.resolve(result);
+				} else {
+					child.reject(result);
 				}
 			});
 		}

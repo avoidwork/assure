@@ -45,7 +45,8 @@ module.exports = function (grunt) {
 				sourceMapIncludeSources: true,
 				mangle: {
 					except: [
-						"Deferred"
+						"Deferred",
+						"Promise"
 					]
 				}
 			},
