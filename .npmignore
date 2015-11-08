@@ -1,12 +1,11 @@
-/doc/
 /node_modules/
 /lib/assure.min.js
-/lib/assure.map
+/lib/assure.min.js.map
 /test/
 /src/
 .git
 .gitignore
-.jshintrc
+.eslintrc
 .travis.yml
 Gruntfile.js
 benchmark.js
