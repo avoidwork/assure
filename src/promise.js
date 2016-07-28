@@ -53,8 +53,8 @@ class Promise {
 				}
 
 				if (result && typeof result.then === "function") {
-					pipe(result, promise);
-				} else if (!result instanceof Error) {
+					pipe(result, child);
+				} else if (!(result instanceof Error)) {
 					child.resolve(result);
 				} else {
 					child.reject(result);
